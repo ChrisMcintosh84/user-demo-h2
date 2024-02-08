@@ -36,3 +36,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/userDb.mv.db
+/src/main/resources/data.sql
