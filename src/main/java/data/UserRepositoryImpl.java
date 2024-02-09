@@ -64,7 +64,7 @@ public class UserRepositoryImpl implements UserRepositoryInterface {
     }
 
     @Override
-    public int updateUser(User user) {
+    public void updateUser(User user) {
         String updateQuery = "UPDATE USERS SET AGE=?, WEIGHT=? WHERE ID=?";
 
         try {
@@ -74,13 +74,12 @@ public class UserRepositoryImpl implements UserRepositoryInterface {
             preparedStatement.setDouble(2, user.getWeight());
             preparedStatement.setInt(3, user.getId());
 
-            return preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return 0;
     }
 
     @Override
