@@ -1,6 +1,7 @@
 package models;
 
 public class User {
+    private int id = 0;
     private String name;
     private int age;
     private double weight;
@@ -12,6 +13,14 @@ public class User {
         this.name = name;
         this.age = age;
         this.weight = weight;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

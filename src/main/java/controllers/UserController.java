@@ -1,7 +1,10 @@
 package controllers;
 
 import data.UserRepositoryImpl;
+import models.User;
 import views.UserView;
+
+import java.util.List;
 
 public class UserController {
     private UserRepositoryImpl userRepository;
@@ -26,19 +29,70 @@ public class UserController {
                     printUsers();
                     break;
                 case 2:
-                    System.out.println("add");
+                    processNewUser();
                     break;
                 case 3:
-                    System.out.println("edit");
+                    processUpdatedUser();
                     break;
                 case 4:
-                    System.out.println("delete");
+                    processUserToDelete();
                     break;
                 case 5:
                     System.exit(1);
                 default:
                     System.out.println("Invalid option");
             }
+        }
+    }
+
+    private void processNewUser() {
+        User user = userView.getNewUser();
+
+        if (user != null) {
+            int result = userRepository.addUser(user);
+
+            if (result > 0) {
+                System.out.println("New user added");
+            }
+            else {
+                System.out.println("Unable to add user");
+            }
+        }
+    }
+
+    private void processUpdatedUser() {
+        User user = userView.getUpdatedUser();
+        List<User> userList = userRepository.fetchUsers();
+
+        User tempUser = userList.stream()
+                .filter(predicateUser -> user.getName().equals(predicateUser.getName()))
+                .findAny()
+                .orElse(null);
+
+        if (tempUser != null) {
+            user.setId(tempUser.getId());
+            userRepository.updateUser(user);
+            System.out.println("User updated");
+        }
+        else {
+            System.out.println("User not found");
+        }
+    }
+
+    private void processUserToDelete() {
+        String name = userView.getUserToDelete();
+        List<User> userList = userRepository.fetchUsers();
+
+        User tempUser = userList.stream()
+                .filter(predicateUser -> name.equals(predicateUser.getName()))
+                .findAny()
+                .orElse(null);
+
+        if (tempUser != null) {
+            userRepository.deleteUser(tempUser.getId());
+        }
+        else {
+            System.out.println("User not found");
         }
     }
 

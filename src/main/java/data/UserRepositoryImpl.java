@@ -15,13 +15,15 @@ public class UserRepositoryImpl implements UserRepositoryInterface {
         String fetchQuery = "SELECT * FROM USERS";
         List<User> userList = null;
 
-        try (Connection connection = DataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(fetchQuery);
-             ResultSet resultSet = preparedStatement.executeQuery();) {
+        try {
+            Connection connection = DataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(fetchQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
             userList = new ArrayList<>();
             User user;
             while (resultSet.next()) {
                 user = new User();
+                user.setId(resultSet.getInt("ID"));
                 user.setName(resultSet.getString("NAME"));
                 user.setAge(resultSet.getInt("AGE"));
                 user.setWeight(resultSet.getDouble("WEIGHT"));
@@ -31,6 +33,7 @@ public class UserRepositoryImpl implements UserRepositoryInterface {
         catch (SQLException e) {
             e.printStackTrace();
         }
+
         return userList;
     }
 
@@ -40,17 +43,61 @@ public class UserRepositoryImpl implements UserRepositoryInterface {
     }
 
     @Override
-    public User addUser(User user) {
-        return null;
+    public int addUser(User user) {
+        String addQuery = "INSERT INTO USERS (NAME, AGE, WEIGHT) VALUES (?, ?, ?)";
+
+        try {
+            Connection connection = DataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(addQuery);
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setInt(2, user.getAge());
+            preparedStatement.setDouble(3, user.getWeight());
+
+            return preparedStatement.executeUpdate();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 
     @Override
-    public User updateUser(User user) {
-        return null;
+    public int updateUser(User user) {
+        String updateQuery = "UPDATE USERS SET AGE=?, WEIGHT=? WHERE ID=?";
+
+        try {
+            Connection connection = DataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+            preparedStatement.setInt(1, user.getAge());
+            preparedStatement.setDouble(2, user.getWeight());
+            preparedStatement.setInt(3, user.getId());
+
+            return preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 
     @Override
-    public boolean deleteUser(int id) {
-        return false;
+    public void deleteUser(int id) {
+        String deleteQuery = "DELETE FROM USERS WHERE ID=?";
+
+        try {
+            Connection connection = DataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

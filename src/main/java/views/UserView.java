@@ -1,5 +1,7 @@
 package views;
 
+import models.User;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -25,5 +27,64 @@ public class UserView {
          }
 
         return choice;
+    }
+
+    public User getNewUser() {
+        System.out.println("---Add User---");
+        System.out.println("Enter name of user: ");
+        String name = input.next();
+        int age;
+        double weight;
+
+        try {
+            System.out.println("Enter age: ");
+            age = input.nextInt();
+            System.out.println("Enter weight (in kgs): ");
+            weight = input.nextDouble();
+
+            return new User(name, age, weight);
+        }
+        catch (InputMismatchException e) {
+            System.out.println("Invalid format");
+            input.nextLine();
+        }
+        return null;
+    }
+
+    public User getUpdatedUser() {
+        System.out.println("---Edit User---");
+        System.out.println("Enter name of user to edit: ");
+        String name = input.next();
+        int age;
+        double weight;
+
+        try {
+            System.out.println("Enter age: ");
+            age = input.nextInt();
+            System.out.println("Enter weight (in kgs): ");
+            weight = input.nextDouble();
+
+            return new User(name, age, weight);
+        }
+        catch (InputMismatchException e) {
+            System.out.println("Invalid format");
+            input.nextLine();
+        }
+        return null;
+    }
+
+    public String getUserToDelete() {
+        System.out.println("---Delete User---");
+        System.out.println("Enter name of user to delete: ");
+        String name = input.next();
+
+        System.out.println("Is this correct? (Y/N)");
+        System.out.println("Name: " + name);
+        String choice = input.next().toLowerCase();
+
+        if (choice.equals("y")) {
+            return name;
+        }
+        return null;
     }
 }

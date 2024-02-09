@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserRepositoryInterface {
     public List<User> fetchUsers();
     public User fetchUserById(int id);
-    public User addUser(User user);
-    public User updateUser(User user);
-    public boolean deleteUser(int id);
+    public int addUser(User user);
+    public int updateUser(User user);
+    public void deleteUser(int id);
 }

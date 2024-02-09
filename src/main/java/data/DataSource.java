@@ -11,8 +11,7 @@ public class DataSource {
     private static HikariDataSource dataSource;
 
     static {
-//        config.setJdbcUrl("jdbc:h2:./userDb;DB_CLOSE_DELAY=-1;INIT=runscript from 'classpath:/data.sql'");
-        config.setJdbcUrl("jdbc:h2:./userDb;DB_CLOSE_DELAY=-1");
+        config.setJdbcUrl("jdbc:h2:./userDb;DB_CLOSE_DELAY=-1;INIT=runscript from 'classpath:/data.sql'");
         config.setUsername("user");
         config.setPassword("password");
         dataSource = new HikariDataSource(config);

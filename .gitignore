@@ -38,3 +38,4 @@ build/
 .DS_Store
 /userDb.mv.db
 /src/main/resources/data.sql
+/userDb.trace.db
